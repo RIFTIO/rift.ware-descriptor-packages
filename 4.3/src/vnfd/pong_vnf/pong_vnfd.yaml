@@ -1,0 +1,80 @@
+vnfd:vnfd-catalog:
+    vnfd:vnfd:
+    -   vnfd:connection-point:
+        -   vnfd:name: pong_vnfd/cp0
+            vnfd:type: VPORT
+        vnfd:description: This is an example RIFT.ware VNF
+        vnfd:http-endpoint:
+        -   vnfd:path: api/v1/pong/stats
+            vnfd:polling_interval_secs: '2'
+            vnfd:port: '18889'
+        vnfd:id: 0ff9bef2-97ca-11e6-be38-0250bd176e03
+        vnfd:logo: rift_logo.png
+        vnfd:mgmt-interface:
+            vnfd:dashboard-params:
+                vnfd:path: api/v1/pong/stats
+                vnfd:port: '18889'
+            vnfd:port: '18889'
+            vnfd:vdu-id: iovdu_0
+        vnfd:monitoring-param:
+        -   vnfd:description: no of ping requests
+            vnfd:group-tag: Group1
+            vnfd:http-endpoint-ref: api/v1/pong/stats
+            vnfd:id: '1'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: ping-request-rx-count
+            vnfd:units: packets
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        -   vnfd:description: no of ping responses
+            vnfd:group-tag: Group1
+            vnfd:http-endpoint-ref: api/v1/pong/stats
+            vnfd:id: '2'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: ping-response-tx-count
+            vnfd:units: packets
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        vnfd:name: pong_vnfd
+        vnfd:placement-groups:
+        -   vnfd:member-vdus:
+            -   vnfd:member-vdu-ref: iovdu_0
+            vnfd:name: Weywot
+            vnfd:requirement: Place this VM on the Kuiper belt object Weywot
+            vnfd:strategy: COLOCATION
+        vnfd:short-name: pong_vnfd
+        vnfd:vdu:
+        -   vnfd:cloud-init-file: pong_cloud_init.cfg
+            vnfd:count: '1'
+            vnfd:external-interface:
+            -   vnfd:name: eth0
+                vnfd:virtual-interface:
+                    vnfd:type: VIRTIO
+                vnfd:vnfd-connection-point-ref: pong_vnfd/cp0
+            vnfd:id: iovdu_0
+            vnfd:image: Fedora-x86_64-20-20131211.1-sda-pong.qcow2
+            vnfd:image-checksum: 977484d95575f80ef8399c9cf1d45ebd
+            vnfd:name: iovdu_0
+            vnfd:vm-flavor:
+                vnfd:memory-mb: '512'
+                vnfd:storage-gb: '4'
+                vnfd:vcpu-count: '1'
+        vnfd:vendor: RIFT.io
+        vnfd:version: '1.0'
+        vnfd:vnf-configuration:
+            vnfd:config-attributes:
+                vnfd:config-delay: '60'
+                vnfd:config-priority: '1'
+            vnfd:config-template: "\n#!/bin/bash\n\n# Rest API configuration\npong_mgmt_ip='<rw_mgmt_ip>'\n\
+                pong_mgmt_port=18889\n# username=<rw_username>\n# password=<rw_password>\n\
+                \n# VNF specific configuration\npong_server_ip='<rw_connection_point_name\
+                \ pong_vnfd/cp0>'\nserver_port=5555\n\n# Make Rest API calls to configure\
+                \ VNF\ncurl -D /dev/null \\\n    -H \"Accept: application/vnd.yang.data+xml\"\
+                \ \\\n    -H \"Content-Type: application/vnd.yang.data+json\" \\\n\
+                \    -X POST \\\n    -d \"{\\\"ip\\\":\\\"$pong_server_ip\\\", \\\"\
+                port\\\":$server_port}\" \\\n    http://${pong_mgmt_ip}:${pong_mgmt_port}/api/v1/pong/server\n\
+                rc=$?\nif [ $rc -ne 0 ]\nthen\n    echo \"Failed to set server(own)\
+                \ info for pong!\"\n    exit $rc\nfi\n\nexit 0\n"
+            vnfd:script:
+                vnfd:script-type: bash
+

@@ -1,0 +1,70 @@
+nsd:nsd-catalog:
+    nsd:nsd:
+    -   nsd:constituent-vnfd:
+        -   nsd:member-vnf-index: '1'
+            nsd:vnfd-id-ref: 0ff939dc-97ca-11e6-be38-0250bd176e03
+        -   nsd:member-vnf-index: '2'
+            nsd:vnfd-id-ref: 0ff9bef2-97ca-11e6-be38-0250bd176e03
+        nsd:description: Toy NS
+        nsd:id: 0ff9f0de-97ca-11e6-be38-0250bd176e03
+        nsd:initial-config-primitive:
+        -   nsd:name: start traffic
+            nsd:parameter:
+            -   nsd:name: userid
+            nsd:seq: '1'
+            nsd:user-defined-script: start_traffic.py
+        nsd:input-parameter-xpath:
+        -   nsd:xpath: /nsd:nsd-catalog/nsd:nsd/nsd:vendor
+        nsd:ip-profiles:
+        -   nsd:description: Inter VNF Link
+            nsd:ip-profile-params:
+                nsd:gateway-address: 31.31.31.210
+                nsd:ip-version: ipv4
+                nsd:subnet-address: 31.31.31.0/24
+            nsd:name: InterVNFLink
+        nsd:logo: rift_logo.png
+        nsd:name: ping_pong_nsd
+        nsd:placement-groups:
+        -   nsd:member-vnfd:
+            -   nsd:member-vnf-index-ref: '1'
+                nsd:vnfd-id-ref: 0ff939dc-97ca-11e6-be38-0250bd176e03
+            -   nsd:member-vnf-index-ref: '2'
+                nsd:vnfd-id-ref: 0ff9bef2-97ca-11e6-be38-0250bd176e03
+            nsd:name: Orcus
+            nsd:requirement: Place this VM on the Kuiper belt object Orcus
+            nsd:strategy: COLOCATION
+        -   nsd:member-vnfd:
+            -   nsd:member-vnf-index-ref: '1'
+                nsd:vnfd-id-ref: 0ff939dc-97ca-11e6-be38-0250bd176e03
+            -   nsd:member-vnf-index-ref: '2'
+                nsd:vnfd-id-ref: 0ff9bef2-97ca-11e6-be38-0250bd176e03
+            nsd:name: Quaoar
+            nsd:requirement: Place this VM on the Kuiper belt object Quaoar
+            nsd:strategy: COLOCATION
+        nsd:short-name: ping_pong_nsd
+        nsd:terminate-config-primitive:
+        -   nsd:name: stop traffic
+            nsd:parameter:
+            -   nsd:name: userid
+                nsd:value: rift
+            nsd:seq: '1'
+            nsd:user-defined-script: stop_traffic.py
+        nsd:vendor: RIFT.io
+        nsd:version: '1.0'
+        nsd:vld:
+        -   nsd:description: Toy VL
+            nsd:id: ping_pong_vld1
+            nsd:ip-profile-ref: InterVNFLink
+            nsd:name: ping_pong_vld
+            nsd:short-name: ping_pong_vld
+            nsd:type: ELAN
+            nsd:vendor: RIFT.io
+            nsd:version: '1.0'
+            nsd:vnfd-connection-point-ref:
+            -   nsd:member-vnf-index-ref: '1'
+                nsd:vnfd-connection-point-ref: ping_vnfd/cp0
+                nsd:vnfd-id-ref: 0ff939dc-97ca-11e6-be38-0250bd176e03
+            -   nsd:member-vnf-index-ref: '2'
+                nsd:vnfd-connection-point-ref: pong_vnfd/cp0
+                nsd:vnfd-id-ref: 0ff9bef2-97ca-11e6-be38-0250bd176e03
+
