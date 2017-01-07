@@ -1,0 +1,42 @@
+vnfd:vnfd-catalog:
+    vnfd:vnfd:
+    -   vnfd:connection-point:
+        -   vnfd:name: httpd_vnfd/cp0
+            vnfd:type: VPORT
+        vnfd:description: This is a web server from Apache
+        vnfd:http-endpoint:
+        -   vnfd:password: httpd
+            vnfd:path: /server-status
+            vnfd:polling_interval_secs: '2'
+            vnfd:username: admin
+        vnfd:id: a2a49e80-d469-11e6-a9d5-02ad6545911a
+        vnfd:logo: riftio.png
+        vnfd:mgmt-interface:
+            vnfd:dashboard-params:
+                vnfd:path: /server-status
+                vnfd:port: '9000'
+            vnfd:port: '9000'
+            vnfd:vdu-id: a2a506cc-d469-11e6-a9d5-02ad6545911a
+        vnfd:name: httpd_vnfd
+        vnfd:short-name: httpd_vnfd
+        vnfd:vdu:
+        -   vnfd:cloud-init: "#cloud-config\npassword: centos\nchpasswd: { expire:\
+                \ False }\nssh_pwauth: True\nruncmd:\n  - [ ifconfig, eth1, up ]\n\
+                \  - [ dhclient, eth1 ]\n  - [ systemctl, disable, firewalld ]\n \
+                \ - [ systemctl, stop, firewalld ]\n  - [ systemctl, start, httpd\
+                \ ]\n"
+            vnfd:count: '1'
+            vnfd:external-interface:
+            -   vnfd:name: eth1
+                vnfd:virtual-interface:
+                    vnfd:type: VIRTIO
+                vnfd:vnfd-connection-point-ref: httpd_vnfd/cp0
+            vnfd:id: a2a506cc-d469-11e6-a9d5-02ad6545911a
+            vnfd:image: web-server-v02.qcow2
+            vnfd:name: iovdu
+            vnfd:vm-flavor:
+                vnfd:memory-mb: '2048'
+                vnfd:storage-gb: '20'
+                vnfd:vcpu-count: '1'
+        vnfd:vendor: Apache Web Server
+        vnfd:version: '1.0'

@@ -1,0 +1,79 @@
+vnfd:vnfd-catalog:
+    vnfd:vnfd:
+    -   vnfd:connection-point:
+        -   vnfd:name: http_client_vnfd/cp0
+            vnfd:type: VPORT
+        vnfd:description: This is a web client from Apache, with a Tornado HTTP server
+            wrapper
+        vnfd:http-endpoint:
+        -   vnfd:path: /api/stats
+            vnfd:polling_interval_secs: '2'
+            vnfd:port: '18888'
+        vnfd:id: a2a16ab2-d469-11e6-8b39-02ad6545911a
+        vnfd:logo: riftio.png
+        vnfd:mgmt-interface:
+            vnfd:dashboard-params:
+                vnfd:path: /server-status
+                vnfd:port: '18888'
+            vnfd:port: '18888'
+            vnfd:vdu-id: a2a1fb4e-d469-11e6-8b39-02ad6545911a
+        vnfd:monitoring-param:
+        -   vnfd:description: Successful requests to HAProxy
+            vnfd:group-tag: Client Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '1'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: req_success
+            vnfd:units: reqs
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        -   vnfd:description: Failed requests to HAProxy
+            vnfd:group-tag: Client Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '2'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: req_failure
+            vnfd:units: reqs
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        -   vnfd:description: Total bytes per second from client
+            vnfd:group-tag: Client Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '3'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: bytes_per_second
+            vnfd:units: bytes
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        -   vnfd:description: Total Bytes sent by client
+            vnfd:group-tag: Client Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '4'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: bytes_transmit
+            vnfd:units: bytes
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        vnfd:name: http_client_vnfd
+        vnfd:short-name: http_client_vnfd
+        vnfd:vdu:
+        -   vnfd:cloud-init: "#cloud-config\npassword: centos\nchpasswd: { expire:\
+                \ False }\nssh_pwauth: True\nruncmd:\n  - [ ifconfig, eth1, up ]\n\
+                \  - [ dhclient, eth1 ]\n  - [ systemctl, disable, firewalld ]\n \
+                \ - [ systemctl, stop, firewalld ]\n  - [ systemctl, start, http_client\
+                \ ]\n"
+            vnfd:count: '1'
+            vnfd:external-interface:
+            -   vnfd:name: eth1
+                vnfd:virtual-interface:
+                    vnfd:type: VIRTIO
+                vnfd:vnfd-connection-point-ref: http_client_vnfd/cp0
+            vnfd:id: a2a1fb4e-d469-11e6-8b39-02ad6545911a
+            vnfd:image: web-server-v02.qcow2
+            vnfd:name: iovdu
+            vnfd:vm-flavor:
+                vnfd:memory-mb: '2048'
+                vnfd:storage-gb: '20'
+                vnfd:vcpu-count: '1'
+        vnfd:vendor: Apache Bench
+        vnfd:version: '1.0'

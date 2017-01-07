@@ -16,7 +16,7 @@
 #
 BUILD_DIR = build
 
-NSDS := ping_pong_ns
+NSDS := ping_pong_ns haproxy_waf_http_ns
 NSD_SRC_DIR := src/nsd
 NSD_BUILD_DIR := $(BUILD_DIR)/nsd
 
@@ -25,7 +25,7 @@ NSD_BUILD_DIRS := $(addprefix $(NSD_BUILD_DIR)/, $(NSDS))
 NSD_PKGS := $(addsuffix .tar.gz, $(NSDS))
 NSD_BUILD_PKGS := $(addprefix $(NSD_BUILD_DIR)_pkgs/, $(NSD_PKGS))
 
-VNFDS := ping_vnf pong_vnf
+VNFDS := ping_vnf pong_vnf httpd_vnf http_client_vnf haproxy_vnf waf_vnf
 VNFD_SRC_DIR := src/vnfd
 VNFD_BUILD_DIR := $(BUILD_DIR)/vnfd
 

@@ -1,0 +1,203 @@
+vnfd:vnfd-catalog:
+    vnfd:vnfd:
+    -   vnfd:connection-point:
+        -   vnfd:name: haproxy_vnfd/cp0
+            vnfd:type: VPORT
+        -   vnfd:name: haproxy_vnfd/cp1
+            vnfd:type: VPORT
+        -   vnfd:name: haproxy_vnfd/cp2
+            vnfd:type: VPORT
+        vnfd:description: HAProxy is a free, very fast and reliable solution offering
+            high availability, load balancing, and proxying for TCP and HTTP-based
+            applications
+        vnfd:http-endpoint:
+        -   vnfd:password: haproxy
+            vnfd:path: /api/stats
+            vnfd:polling_interval_secs: '2'
+            vnfd:port: '18888'
+            vnfd:username: admin
+        vnfd:id: a2acc68c-d469-11e6-81d0-02ad6545911a
+        vnfd:logo: riftio.png
+        vnfd:mgmt-interface:
+            vnfd:dashboard-params:
+                vnfd:path: /haproxy_stats
+                vnfd:port: '9000'
+            vnfd:port: '9000'
+            vnfd:vdu-id: a2ae0da8-d469-11e6-81d0-02ad6545911a
+        vnfd:monitoring-param:
+        -   vnfd:description: Current client sessions per sec
+            vnfd:group-tag: Client Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '1'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: client_session_rate
+            vnfd:numeric-constraints:
+                vnfd:max-value: '2000'
+                vnfd:min-value: '0'
+            vnfd:units: sessions/sec
+            vnfd:value-type: INT
+            vnfd:widget-type: GAUGE
+        -   vnfd:description: Total client sessions
+            vnfd:group-tag: Client Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '2'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: client_session_total
+            vnfd:units: sessions
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        -   vnfd:description: Total Bytes from client
+            vnfd:group-tag: Client Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '3'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: client_bytes_in
+            vnfd:units: bytes
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        -   vnfd:description: Total Bytes back to client
+            vnfd:group-tag: Client Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '4'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: client_bytes_out
+            vnfd:units: bytes
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        -   vnfd:description: Current active client sessions
+            vnfd:group-tag: Client Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '19'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: client_sessions
+            vnfd:units: sessions
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        -   vnfd:description: Current waf sessions per sec
+            vnfd:group-tag: WAF Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '5'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: waf_session_rate
+            vnfd:numeric-constraints:
+                vnfd:max-value: '2000'
+                vnfd:min-value: '0'
+            vnfd:units: sessions/sec
+            vnfd:value-type: INT
+            vnfd:widget-type: GAUGE
+        -   vnfd:description: Total waf sessions
+            vnfd:group-tag: WAF Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '6'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: waf_session_total
+            vnfd:units: sessions
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        -   vnfd:description: Total Bytes from waf
+            vnfd:group-tag: WAF Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '7'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: waf_bytes_in
+            vnfd:units: bytes
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        -   vnfd:description: Total Bytes back to waf
+            vnfd:group-tag: WAF Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '8'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: waf_bytes_out
+            vnfd:units: bytes
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        -   vnfd:description: Current active waf sessions
+            vnfd:group-tag: WAF Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '20'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: waf_sessions
+            vnfd:units: sessions
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        -   vnfd:description: Current httpd sessions per sec
+            vnfd:group-tag: Httpd Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '9'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: httpd_session_rate
+            vnfd:numeric-constraints:
+                vnfd:max-value: '2000'
+                vnfd:min-value: '0'
+            vnfd:units: sessions/sec
+            vnfd:value-type: INT
+            vnfd:widget-type: GAUGE
+        -   vnfd:description: Total httpd sessions
+            vnfd:group-tag: Httpd Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '10'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: httpd_session_total
+            vnfd:units: sessions
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        -   vnfd:description: Total Bytes from httpd
+            vnfd:group-tag: Httpd Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '11'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: httpd_bytes_in
+            vnfd:units: bytes
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        -   vnfd:description: Total Bytes back to httpd
+            vnfd:group-tag: Httpd Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '12'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: httpd_bytes_out
+            vnfd:units: bytes
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        -   vnfd:description: Current active httpd sessions
+            vnfd:group-tag: Httpd Stats
+            vnfd:http-endpoint-ref: /api/stats
+            vnfd:id: '21'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: httpd_sessions
+            vnfd:units: sessions
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        vnfd:name: haproxy_vnfd
+        vnfd:short-name: haproxy_vnfd
+        vnfd:vdu:
+        -   vnfd:cloud-init: "#cloud-config\npassword: centos\nchpasswd: { expire:\
+                \ False }\nssh_pwauth: True\nruncmd:\n  - [ ifconfig, eth1, up ]\n\
+                \  - [ ifconfig, eth2, up ]\n  - [ ifconfig, eth3, up ]\n  - [ dhclient,\
+                \ eth1, eth2, eth3 ]\n  - [ systemctl, disable, firewalld ]\n  - [\
+                \ systemctl, stop, firewalld ]\n  - [ systemctl, start, haproxy ]\n\
+                \  - [ systemctl, start, haproxy_stats_server.service ]\n"
+            vnfd:count: '1'
+            vnfd:external-interface:
+            -   vnfd:name: eth1
+                vnfd:virtual-interface:
+                    vnfd:type: VIRTIO
+                vnfd:vnfd-connection-point-ref: haproxy_vnfd/cp0
+            -   vnfd:name: eth2
+                vnfd:virtual-interface:
+                    vnfd:type: VIRTIO
+                vnfd:vnfd-connection-point-ref: haproxy_vnfd/cp1
+            -   vnfd:name: eth3
+                vnfd:virtual-interface:
+                    vnfd:type: VIRTIO
+                vnfd:vnfd-connection-point-ref: haproxy_vnfd/cp2
+            vnfd:id: a2ae0da8-d469-11e6-81d0-02ad6545911a
+            vnfd:image: haproxy-v03.qcow2
+            vnfd:name: iovdu
+            vnfd:vm-flavor:
+                vnfd:memory-mb: '2048'
+                vnfd:storage-gb: '20'
+                vnfd:vcpu-count: '1'
+        vnfd:vendor: haproxy.org
+        vnfd:version: '1.0'
