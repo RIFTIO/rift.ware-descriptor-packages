@@ -1,0 +1,128 @@
+nsd:nsd-catalog:
+    nsd:nsd:
+        nsd:constituent-vnfd:
+        -   nsd:member-vnf-index: '1'
+            nsd:vnfd-id-ref: homesteadprov_vnfd
+        -   nsd:member-vnf-index: '2'
+            nsd:vnfd-id-ref: homesteadprov_vnfd
+        -   nsd:member-vnf-index: '3'
+            nsd:vnfd-id-ref: homesteadprov_vnfd
+        -   nsd:member-vnf-index: '4'
+            nsd:vnfd-id-ref: sipp_vnfd
+        -   nsd:member-vnf-index: '5'
+            nsd:vnfd-id-ref: dnsserver_vnfd
+        -   nsd:member-vnf-index: '6'
+            nsd:vnfd-id-ref: sprout_vnfd
+        nsd:description: NS Clearwater Core Testbed
+        nsd:logo: riftio.png
+        nsd:id: ccore_testbed_nsd
+        nsd:name: ccore_testbed_nsd
+        nsd:short-name: ccore_testbed_nsd
+        nsd:vendor: RIFT.io
+        nsd:version: '1.0'
+        nsd:monitoring-param:
+        -   nsd:aggregation-type: AVERAGE
+            nsd:id: '1'
+            nsd:name: periodic-call-rate
+            nsd:value-type: INT
+            nsd:units: "callspersec"
+            nsd:numeric-constraints: 
+               nsd:min-value: 0
+               nsd:max-value: 50
+            nsd:widget-type: "GAUGE"
+            nsd:vnfd-monitoring-param:
+            -   nsd:vnfd-id-ref: sipp_vnfd
+                nsd:vnfd-monitoring-param-ref: '1'
+        -   nsd:aggregation-type: AVERAGE
+            nsd:id: '2'
+            nsd:name: periodic-call-rate-2
+            nsd:value-type: INT
+            nsd:units: "callspersec"
+            nsd:numeric-constraints: 
+               nsd:min-value: 0
+               nsd:max-value: 50
+            nsd:widget-type: "GAUGE"
+            nsd:vnfd-monitoring-param:
+            -   nsd:vnfd-id-ref: sipp_vnfd
+                nsd:vnfd-monitoring-param-ref: '3'
+        -   nsd:aggregation-type: AVERAGE
+            nsd:id: '3'
+            nsd:name: periodic-call-rate-3
+            nsd:value-type: INT
+            nsd:units: "callspersec"
+            nsd:numeric-constraints: 
+               nsd:min-value: 0
+               nsd:max-value: 50
+            nsd:widget-type: "GAUGE"
+            nsd:vnfd-monitoring-param:
+            -   nsd:vnfd-id-ref: sipp_vnfd
+                nsd:vnfd-monitoring-param-ref: '5'
+        nsd:initial-config-primitive:
+        -
+            nsd:user-defined-script : "ccore_testbed_config.py"
+            nsd:name : "Initial ClearWaterCore Testbed Config"
+            nsd:seq : "1"
+        nsd:service-primitive:
+        -   nsd:name: SIPP Traffic Client
+            nsd:parameter:
+            -   nsd:data-type: STRING
+                nsd:default-value: stop
+                nsd:mandatory: 'true'
+                nsd:name: Trigger
+            -   nsd:data-type: STRING
+                nsd:default-value: 2
+                nsd:name: Target call rate
+            nsd:user-defined-script: startstop_sipptraffic.py
+        -   nsd:name: Sprout Scaling Ops
+            nsd:user-defined-script: sprout_scaling_ops.py
+        nsd:scaling-group-descriptor:
+        -   nsd:max-instance-count: '10'
+            nsd:min-instance-count: '0'
+            nsd:name: sprout_group
+            nsd:scaling-config-action:
+            -   nsd:ns-config-primitive-name-ref: Sprout Scaling Ops
+                nsd:trigger: post-scale-out
+            -   nsd:ns-config-primitive-name-ref: Sprout Scaling Ops
+                nsd:trigger: pre-scale-in
+            nsd:vnfd-member:
+            -   nsd:count: '1'
+                nsd:member-vnf-index-ref: '6'
+            scaling-policy:
+            -   nsd:name: "scaling-policy-2"
+                nsd:scaling-type: "automatic"
+                nsd:scale-in-operation-type: "AND"
+                nsd:scale-out-operation-type: "AND"
+                nsd:threshold-time: "150"
+                nsd:cooldown-time: "300"
+                nsd:scaling-criteria:
+                -   nsd:name: "scaling-criteria-2"
+                    nsd:scale-in-threshold: "4"
+                    nsd:scale-out-threshold: "12"
+                    nsd:ns-monitoring-param-ref: "1" 
+        nsd:vld:
+        -   nsd:description: Signaling link
+            nsd:id: SigLink
+            nsd:name: SigLink
+            nsd:short-name: SigLink
+            nsd:type: ELAN
+            nsd:vendor: RIFT.io
+            nsd:version: '1.0'
+            nsd:vnfd-connection-point-ref:
+            -   nsd:member-vnf-index-ref: '1'
+                nsd:vnfd-connection-point-ref: homesteadprov_vnfd/sigport
+                nsd:vnfd-id-ref: homesteadprov_vnfd
+            -   nsd:member-vnf-index-ref: '2'
+                nsd:vnfd-connection-point-ref: homesteadprov_vnfd/sigport
+                nsd:vnfd-id-ref: homesteadprov_vnfd
+            -   nsd:member-vnf-index-ref: '3'
+                nsd:vnfd-connection-point-ref: homesteadprov_vnfd/sigport
+                nsd:vnfd-id-ref: homesteadprov_vnfd
+            -   nsd:member-vnf-index-ref: '4'
+                nsd:vnfd-connection-point-ref: sipp_vnfd/cp0
+                nsd:vnfd-id-ref: sipp_vnfd
+            -   nsd:member-vnf-index-ref: '5'
+                nsd:vnfd-connection-point-ref: dnsserver_vnfd/sigport
+                nsd:vnfd-id-ref: dnsserver_vnfd
+            -   nsd:member-vnf-index-ref: '6'
+                nsd:vnfd-connection-point-ref: sprout_vnfd/sigport
+                nsd:vnfd-id-ref: sprout_vnfd
