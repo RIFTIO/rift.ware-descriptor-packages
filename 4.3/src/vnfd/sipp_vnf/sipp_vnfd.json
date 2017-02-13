@@ -1,0 +1,157 @@
+{
+    "vnfd:vnfd-catalog": {
+        "vnfd:vnfd": [
+            {
+                "vnfd:connection-point": [
+                    {
+                        "vnfd:name": "sipp_vnfd/cp0",
+                        "vnfd:type": "VPORT"
+                    }
+                ],
+                "vnfd:description": "This is a Fedora VNF with SIPP installed",
+                "vnfd:http-endpoint": [
+                    {
+                        "vnfd:headers": [
+                            {
+                                "vnfd:key": "Content-type",
+                                "vnfd:value": "application/vnd.yang.data+json"
+                            },
+                            {
+                                "vnfd:key": "Accept",
+                                "vnfd:value": "json"
+                            }
+                        ],
+                        "vnfd:password": "fedora",
+                        "vnfd:path": "api/sipp/stats",
+                        "vnfd:polling_interval_secs": "3",
+                        "vnfd:port": "8888",
+                        "vnfd:username": "fedora"
+                    }
+                ],
+                "vnfd:id": "sipp_vnfd",
+                "vnfd:logo": "riftio.png",
+                "vnfd:mgmt-interface": {
+                    "vnfd:port": "2022",
+                    "vnfd:vdu-id": "abf94198-d1bc-11e6-bfdb-02ad6545911a"
+                },
+                "vnfd:monitoring-param": [
+                    {
+                        "vnfd:description": "Call rate in the last periodic interval",
+                        "vnfd:group-tag": "Group1",
+                        "vnfd:http-endpoint-ref": "api/sipp/stats",
+                        "vnfd:id": "1",
+                        "vnfd:json-query-method": "NAMEKEY",
+                        "vnfd:name": "periodic-call-rate",
+                        "vnfd:numeric-constraints": {
+                            "vnfd:max-value": "50",
+                            "vnfd:min-value": "0"
+                        },
+                        "vnfd:units": "callspersec",
+                        "vnfd:value-type": "INT",
+                        "vnfd:widget-type": "GAUGE"
+                    },
+                    {
+                        "vnfd:description": "Num succesful calls in the last periodic interval",
+                        "vnfd:group-tag": "Group1",
+                        "vnfd:http-endpoint-ref": "api/sipp/stats",
+                        "vnfd:id": "2",
+                        "vnfd:json-query-method": "NAMEKEY",
+                        "vnfd:name": "periodic-success-call-count",
+                        "vnfd:units": "calls",
+                        "vnfd:value-type": "INT",
+                        "vnfd:widget-type": "COUNTER"
+                    },
+                    {
+                        "vnfd:description": "Call rate in the last periodic interval",
+                        "vnfd:group-tag": "Group2",
+                        "vnfd:http-endpoint-ref": "api/sipp/stats",
+                        "vnfd:id": "3",
+                        "vnfd:json-query-method": "NAMEKEY",
+                        "vnfd:name": "periodic-call-rate-2",
+                        "vnfd:numeric-constraints": {
+                            "vnfd:max-value": "50",
+                            "vnfd:min-value": "0"
+                        },
+                        "vnfd:units": "callspersec",
+                        "vnfd:value-type": "INT",
+                        "vnfd:widget-type": "GAUGE"
+                    },
+                    {
+                        "vnfd:description": "Num succesful calls in the last periodic interval",
+                        "vnfd:group-tag": "Group2",
+                        "vnfd:http-endpoint-ref": "api/sipp/stats",
+                        "vnfd:id": "4",
+                        "vnfd:json-query-method": "NAMEKEY",
+                        "vnfd:name": "periodic-success-call-count-2",
+                        "vnfd:units": "calls",
+                        "vnfd:value-type": "INT",
+                        "vnfd:widget-type": "COUNTER"
+                    },
+                    {
+                        "vnfd:description": "Call rate in the last periodic interval",
+                        "vnfd:group-tag": "Group3",
+                        "vnfd:http-endpoint-ref": "api/sipp/stats",
+                        "vnfd:id": "5",
+                        "vnfd:json-query-method": "NAMEKEY",
+                        "vnfd:name": "periodic-call-rate-3",
+                        "vnfd:numeric-constraints": {
+                            "vnfd:max-value": "50",
+                            "vnfd:min-value": "0"
+                        },
+                        "vnfd:units": "callspersec",
+                        "vnfd:value-type": "INT",
+                        "vnfd:widget-type": "GAUGE"
+                    },
+                    {
+                        "vnfd:description": "Num succesful calls in the last periodic interval",
+                        "vnfd:group-tag": "Group3",
+                        "vnfd:http-endpoint-ref": "api/sipp/stats",
+                        "vnfd:id": "6",
+                        "vnfd:json-query-method": "NAMEKEY",
+                        "vnfd:name": "periodic-success-call-count-3",
+                        "vnfd:units": "calls",
+                        "vnfd:value-type": "INT",
+                        "vnfd:widget-type": "COUNTER"
+                    }
+                ],
+                "vnfd:name": "sipp_vnfd",
+                "vnfd:short-name": "sipp_vnfd",
+                "vnfd:vdu": [
+                    {
+                        "vnfd:cloud-init": "#cloud-config\npassword: fedora\nchpasswd: { expire: False }\nssh_pwauth: True\nruncmd:\n    - [ systemctl, daemon-reload ]\n    - [ ifup, eth1 ]\n    - [ systemctl, enable, sippstats.service ]\n    - [ systemctl, start, --no-block, sippstats.service ]\n",
+                        "vnfd:count": "1",
+                        "vnfd:external-interface": [
+                            {
+                                "vnfd:name": "eth1",
+                                "vnfd:virtual-interface": {
+                                    "vnfd:type": "VIRTIO"
+                                },
+                                "vnfd:vnfd-connection-point-ref": "sipp_vnfd/cp0"
+                            }
+                        ],
+                        "vnfd:id": "abf94198-d1bc-11e6-bfdb-02ad6545911a",
+                        "vnfd:image": "sipp-4.qcow2",
+                        "vnfd:name": "iovdu",
+                        "vnfd:vm-flavor": {
+                            "vnfd:memory-mb": "4096",
+                            "vnfd:storage-gb": "40",
+                            "vnfd:vcpu-count": "2"
+                        }
+                    }
+                ],
+                "vnfd:vendor": "RIFT.io",
+                "vnfd:version": "1.0",
+                "vnfd:vnf-configuration": {
+                    "vnfd:config-attributes": {
+                        "vnfd:config-delay": "60",
+                        "vnfd:config-priority": "1"
+                    },
+                    "vnfd:config-template": "\n#!/bin/bash\n\necho \"!!!!!!!! Executed sipp Configuration !!!!!!!!!\"\n        ",
+                    "vnfd:script": {
+                        "vnfd:script-type": "bash"
+                    }
+                }
+            }
+        ]
+    }
+}
