@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ServiceProfile>
+    <InitialFilterCriteria>
+        <Priority>6</Priority>
+        <TriggerPoint>
+            <ConditionTypeCNF>1</ConditionTypeCNF>
+            <SPT>
+                <ConditionNegated>0</ConditionNegated>
+                <Group>0</Group>
+                <Method>PUBLISH</Method>
+                <Extension/>
+            </SPT>
+            <SPT>
+                <ConditionNegated>0</ConditionNegated>
+                <Group>1</Group>
+                <SessionCase>0</SessionCase>
+                <Extension/>
+            </SPT>
+            <SPT>
+                <ConditionNegated>1</ConditionNegated>
+                <Group>2</Group>
+                <SIPHeader>
+                    <Header>X-MSW-ContinueFC</Header>
+                    <Content>orig</Content>
+                </SIPHeader>
+                <Extension/>
+            </SPT>
+        </TriggerPoint>
+        <ApplicationServer>
+            <ServerName>sip:tas.test.com;transport=tcp;call=orig</ServerName>
+            <DefaultHandling>0</DefaultHandling>
+        </ApplicationServer>
+    </InitialFilterCriteria>
+</ServiceProfile>
+

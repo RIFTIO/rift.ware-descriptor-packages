@@ -1,0 +1,42 @@
+vnfd:vnfd-catalog:
+    vnfd:vnfd:
+    -   vnfd:connection-point:
+        -   vnfd:name: dnsserver_vnfd/sigport
+            vnfd:type: VPORT
+        vnfd:description: This is a Rift DNS server
+        vnfd:id: dnsserver_vnfd
+        vnfd:mgmt-interface:
+            vnfd:vdu-id: iovdu_0
+        vnfd:name: dnsserver_vnfd
+        vnfd:short-name: dnsserver_vnfd
+        vnfd:logo: riftio.png
+        vnfd:vdu:
+            vnfd:count: '1'
+            vnfd:external-interface:
+            -   vnfd:name: eth0
+                vnfd:virtual-interface:
+                    vnfd:type: VIRTIO
+                vnfd:vnfd-connection-point-ref: dnsserver_vnfd/sigport
+            vnfd:id: iovdu_0
+            vnfd:image: Fedora-x86_64-20-20131211.1-sda.qcow2
+            vnfd:cloud-init: "#cloud-config\npassword: fedora\nchpasswd: { expire: False }\nssh_pwauth: True\nwrite_files:\n  - path: /etc/sysconfig/network-scripts/ifcfg-eth1\n    content: |\n       DEVICE='eth1'\n       BOOTPROTO='dhcp'\n       ONBOOT='yes'\n       TYPE='Ethernet'\nruncmd:\n  - [ systemctl, daemon-reload ]\n  - [ ifup, eth1 ]\n  \n"
+            vnfd:name: iovdu_0
+            vnfd:vm-flavor:
+                vnfd:memory-mb: '4096'
+                vnfd:storage-gb: '40'
+                vnfd:vcpu-count: '2'
+        vnfd:vendor: Rift.Io
+        vnfd:version: '1.0'
+        vnfd:vnf-configuration:
+        vnfd:vnf-configuration:
+            vnfd:config-attributes:
+                vnfd:config-delay: '0' 
+                vnfd:config-priority: '1' 
+            vnfd:config-template: "\n#!/bin/bash\nexit 0\n"
+            vnfd:initial-config-primitive:
+            -   vnfd:name: DNS server initial configuration
+                vnfd:seq: '1' 
+                vnfd:user-defined-script: dnsserver_initial_config.py
+            vnfd:script:
+                vnfd:script-type: bash
+

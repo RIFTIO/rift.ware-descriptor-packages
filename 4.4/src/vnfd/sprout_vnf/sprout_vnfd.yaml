@@ -1,0 +1,40 @@
+vnfd:vnfd-catalog:
+    vnfd:vnfd:
+    -   vnfd:connection-point:
+        -   vnfd:name: sprout_vnfd/sigport
+            vnfd:type: VPORT
+        vnfd:description: This is a Clearwater Core Sprout VNF
+        vnfd:id: sprout_vnfd
+        vnfd:mgmt-interface:
+            vnfd:vdu-id: iovdu_0
+        vnfd:name: sprout_vnfd
+        vnfd:short-name: sprout_vnfd
+        vnfd:vdu:
+            vnfd:count: '1'
+            vnfd:external-interface:
+            -   vnfd:name: eth0
+                vnfd:virtual-interface:
+                    vnfd:type: VIRTIO
+                vnfd:vnfd-connection-point-ref: sprout_vnfd/sigport
+            vnfd:id: iovdu_0
+            vnfd:image: CC-sprout-9.0.0-2-1.0.0.qcow2
+            vnfd:name: iovdu_0
+            vnfd:vm-flavor:
+                vnfd:memory-mb: '4096'
+                vnfd:storage-gb: '40'
+                vnfd:vcpu-count: '2'
+        vnfd:vendor: Metaswitch
+        vnfd:version: '1.0'
+        vnfd:vnf-configuration:
+        vnfd:vnf-configuration:
+            vnfd:config-attributes:
+                vnfd:config-delay: '0' 
+                vnfd:config-priority: '1' 
+            vnfd:config-template: "\n#!/bin/bash\nexit 0\n"
+            vnfd:initial-config-primitive:
+            -   vnfd:name: Sprout initial configuration
+                vnfd:seq: '1' 
+                vnfd:user-defined-script: sprout_initial_config.py
+            vnfd:script:
+                vnfd:script-type: bash
+

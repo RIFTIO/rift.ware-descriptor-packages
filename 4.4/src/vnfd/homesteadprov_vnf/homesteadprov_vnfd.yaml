@@ -1,0 +1,40 @@
+vnfd:vnfd-catalog:
+    vnfd:vnfd:
+    -   vnfd:connection-point:
+        -   vnfd:name: homesteadprov_vnfd/sigport
+            vnfd:type: VPORT
+        vnfd:description: This is a Clearwater Core Homestead VNF with thin-HSS
+        vnfd:id: homesteadprov_vnfd
+        vnfd:mgmt-interface:
+            vnfd:vdu-id: iovdu_0
+        vnfd:name: homesteadprov_vnfd
+        vnfd:short-name: homesteadprov_vnfd
+        vnfd:vdu:
+            vnfd:count: '1'
+            vnfd:external-interface:
+            -   vnfd:name: eth0
+                vnfd:virtual-interface:
+                    vnfd:type: VIRTIO
+                vnfd:vnfd-connection-point-ref: homesteadprov_vnfd/sigport
+            vnfd:id: iovdu_0
+            vnfd:image: homesteadprov.qcow2
+            vnfd:name: iovdu_0
+            vnfd:vm-flavor:
+                vnfd:memory-mb: '4096'
+                vnfd:storage-gb: '40'
+                vnfd:vcpu-count: '2'
+        vnfd:vendor: Metaswitch
+        vnfd:version: '1.0'
+        vnfd:vnf-configuration:
+        vnfd:vnf-configuration:
+            vnfd:config-attributes:
+                vnfd:config-delay: '0' 
+                vnfd:config-priority: '1' 
+            vnfd:config-template: "\n#!/bin/bash\nexit 0\n"
+            vnfd:initial-config-primitive:
+            -   vnfd:name: HomesteadProv initial configuration
+                vnfd:seq: '1' 
+                vnfd:user-defined-script: homesteadprov_initial_config.py
+            vnfd:script:
+                vnfd:script-type: bash
+
