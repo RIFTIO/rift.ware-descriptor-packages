@@ -1,0 +1,102 @@
+nsd:nsd-catalog:
+    nsd:nsd:
+    -   nsd:constituent-vnfd:
+        -   nsd:member-vnf-index: '1'
+            nsd:vnfd-id-ref: a24c8f72-3c03-11e7-9232-02420a40d508
+        -   nsd:member-vnf-index: '2'
+            nsd:start-by-default: 'false'
+            nsd:vnfd-id-ref: a2efbbf2-3c03-11e7-be93-02420a40d508
+        -   nsd:member-vnf-index: '3'
+            nsd:start-by-default: 'false'
+            nsd:vnfd-id-ref: a3939c40-3c03-11e7-96de-02420a40d508
+        -   nsd:member-vnf-index: '4'
+            nsd:start-by-default: 'false'
+            nsd:vnfd-id-ref: a42f41d6-3c03-11e7-b0df-02420a40d508
+        nsd:description: NS HAProxy-WAF-HTTPD
+        nsd:id: cfcc8f96-4573-11e7-ab4c-02420a40d508
+        nsd:name: haproxy_waf_httpd_nsd
+        nsd:scaling-group-descriptor:
+        -   nsd:max-instance-count: '10'
+            nsd:min-instance-count: '1'
+            nsd:name: http_client_group
+            nsd:scaling-config-action:
+            -   nsd:ns-config-primitive-name-ref: http_client_config
+                nsd:trigger: post-scale-out
+            nsd:vnfd-member:
+            -   nsd:count: '1'
+                nsd:member-vnf-index-ref: '4'
+        -   nsd:max-instance-count: '10'
+            nsd:min-instance-count: '1'
+            nsd:name: waf_group
+            nsd:scaling-config-action:
+            -   nsd:ns-config-primitive-name-ref: waf_config
+                nsd:trigger: pre-scale-in
+            -   nsd:ns-config-primitive-name-ref: waf_config
+                nsd:trigger: post-scale-out
+            nsd:vnfd-member:
+            -   nsd:count: '1'
+                nsd:member-vnf-index-ref: '2'
+        -   nsd:max-instance-count: '10'
+            nsd:min-instance-count: '1'
+            nsd:name: httpd_group
+            nsd:scaling-config-action:
+            -   nsd:ns-config-primitive-name-ref: httpd_config
+                nsd:trigger: pre-scale-in
+            -   nsd:ns-config-primitive-name-ref: httpd_config
+                nsd:trigger: post-scale-out
+            nsd:vnfd-member:
+            -   nsd:count: '1'
+                nsd:member-vnf-index-ref: '3'
+        nsd:service-primitive:
+        -   nsd:name: waf_config
+            nsd:user-defined-script: waf_config.py
+        -   nsd:name: httpd_config
+            nsd:user-defined-script: httpd_config.py
+        -   nsd:name: http_client_config
+            nsd:user-defined-script: http_client_config.py
+        nsd:short-name: haproxy_waf_httpd_nsd
+        nsd:vendor: RIFT.io
+        nsd:version: '1.0'
+        nsd:vld:
+        -   nsd:description: Link from HTTP Client to HAproxy
+            nsd:id: cfcdd1ee-4573-11e7-ab4c-02420a40d508
+            nsd:name: Link1
+            nsd:short-name: Link1
+            nsd:type: ELAN
+            nsd:vendor: RIFT.io
+            nsd:version: '1.0'
+            nsd:vnfd-connection-point-ref:
+            -   nsd:member-vnf-index-ref: '1'
+                nsd:vnfd-connection-point-ref: haproxy_vnfd/cp2
+                nsd:vnfd-id-ref: a24c8f72-3c03-11e7-9232-02420a40d508
+            -   nsd:member-vnf-index-ref: '4'
+                nsd:vnfd-connection-point-ref: http_client_vnfd/cp0
+                nsd:vnfd-id-ref: a42f41d6-3c03-11e7-b0df-02420a40d508
+        -   nsd:description: Link from HAProxy to WAF
+            nsd:id: cfce05e2-4573-11e7-ab4c-02420a40d508
+            nsd:name: Link2
+            nsd:short-name: Link2
+            nsd:type: ELAN
+            nsd:vendor: RIFT.io
+            nsd:version: '1.0'
+            nsd:vnfd-connection-point-ref:
+            -   nsd:member-vnf-index-ref: '1'
+                nsd:vnfd-connection-point-ref: haproxy_vnfd/cp0
+                nsd:vnfd-id-ref: a24c8f72-3c03-11e7-9232-02420a40d508
+            -   nsd:member-vnf-index-ref: '2'
+                nsd:vnfd-connection-point-ref: waf_vnfd/cp0
+                nsd:vnfd-id-ref: a2efbbf2-3c03-11e7-be93-02420a40d508
+        -   nsd:description: Link from HAProxy to Httpd
+            nsd:id: cfce2108-4573-11e7-ab4c-02420a40d508
+            nsd:name: Link3
+            nsd:short-name: Link3
+            nsd:type: ELAN
+            nsd:vendor: RIFT.io
+            nsd:version: '1.0'
+            nsd:vnfd-connection-point-ref:
+            -   nsd:member-vnf-index-ref: '1'
+                nsd:vnfd-connection-point-ref: haproxy_vnfd/cp1
+                nsd:vnfd-id-ref: a24c8f72-3c03-11e7-9232-02420a40d508
+            -   nsd:member-vnf-index-ref: '3'
+                nsd:vnfd-connection-point-ref: httpd_vnfd/cp0
+                nsd:vnfd-id-ref: a3939c40-3c03-11e7-96de-02420a40d508

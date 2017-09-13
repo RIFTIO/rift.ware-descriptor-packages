@@ -1,0 +1,42 @@
+vnfd:vnfd-catalog:
+    vnfd:vnfd:
+    -   vnfd:connection-point:
+        -   vnfd:name: waf_vnfd/cp0
+            vnfd:type: VPORT
+        vnfd:description: This is a web application firewall from Apache HTTPD
+        vnfd:http-endpoint:
+        -   vnfd:password: webappfw
+            vnfd:path: /server-status
+            vnfd:polling-interval-secs: '2'
+            vnfd:username: admin
+        vnfd:id: a2efbbf2-3c03-11e7-be93-02420a40d508
+        vnfd:logo: riftio.png
+        vnfd:mgmt-interface:
+            vnfd:dashboard-params:
+                vnfd:path: /server-status
+                vnfd:port: '9000'
+            vnfd:port: '9000'
+            vnfd:vdu-id: waf
+        vnfd:name: waf_vnfd
+        vnfd:short-name: waf_vnfd
+        vnfd:vdu:
+        -   vnfd:cloud-init: "#cloud-config\nhostname: waf\npassword: centos\nchpasswd:\
+                \ { expire: False }\nssh_pwauth: True\nruncmd:\n  - [ ifconfig, eth1,\
+                \ up ]\n  - [ dhclient, eth1 ]\n  - [ systemctl, disable, firewalld\
+                \ ]\n  - [ systemctl, stop, firewalld ]\n  - [ systemctl, start, httpd\
+                \ ]\n"
+            vnfd:count: '1'
+            vnfd:external-interface:
+            -   vnfd:name: eth1
+                vnfd:virtual-interface:
+                    vnfd:type: VIRTIO
+                vnfd:vnfd-connection-point-ref: waf_vnfd/cp0
+            vnfd:id: waf
+            vnfd:image: web-app-firewall-v02.qcow2
+            vnfd:name: iovdu
+            vnfd:vm-flavor:
+                vnfd:memory-mb: '2048'
+                vnfd:storage-gb: '20'
+                vnfd:vcpu-count: '1'
+        vnfd:vendor: Apache Web Application Firewall
+        vnfd:version: '1.0'
