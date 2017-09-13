@@ -1,0 +1,3 @@
+e364283a546f356914b9438ff443bb13  pong_vnfd.yaml
+29769185725ea60042566e3372ec2a1d  cloud_init/pong_cloud_init.cfg
+9ee8239d84c2365ddcbc1507eeb6026b  icons/rift_logo.png
