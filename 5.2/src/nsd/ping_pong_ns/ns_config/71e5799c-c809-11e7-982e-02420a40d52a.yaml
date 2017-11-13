@@ -1,0 +1,4 @@
+initial_config_primitive:
+- name: start traffic
+  parameter:
+    userid: rift

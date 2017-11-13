@@ -1,0 +1,87 @@
+vnfd:vnfd-catalog:
+    vnfd:vnfd:
+    -   vnfd:connection-point:
+        -   vnfd:name: pong_vnfd/cp1
+            vnfd:type: VPORT
+        -   vnfd:name: pong_vnfd/cp0
+            vnfd:type: VPORT
+        vnfd:description: 'Toy Rift.ware VNF '
+        vnfd:http-endpoint:
+        -   vnfd:path: api/v1/pong/stats
+            vnfd:polling-interval-secs: '2'
+            vnfd:port: '18889'
+        vnfd:id: 71e4dd70-c809-11e7-982e-02420a40d52a
+        vnfd:logo: rift_logo.png
+        vnfd:mgmt-interface:
+            vnfd:dashboard-params:
+                vnfd:path: api/v1/pong/stats
+                vnfd:port: '18889'
+            vnfd:port: '18889'
+            vnfd:vdu-id: iovdu_0
+        vnfd:monitoring-param:
+        -   vnfd:description: no of ping requests
+            vnfd:group-tag: Group1
+            vnfd:http-endpoint-ref: api/v1/pong/stats
+            vnfd:id: '1'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: ping-request-rx-count
+            vnfd:units: packets
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        -   vnfd:description: no of ping responses
+            vnfd:group-tag: Group1
+            vnfd:http-endpoint-ref: api/v1/pong/stats
+            vnfd:id: '2'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: ping-response-tx-count
+            vnfd:units: packets
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        -   vnfd:description: packet rate per sec
+            vnfd:group-tag: Group1
+            vnfd:http-endpoint-ref: api/v1/pong/stats
+            vnfd:id: '3'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: packet-rate
+            vnfd:units: packets per sec
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        vnfd:name: pong_vnfd
+        vnfd:placement-groups:
+        -   vnfd:member-vdus:
+            -   vnfd:member-vdu-ref: iovdu_0
+            vnfd:name: Weywot
+            vnfd:requirement: Place this VM on the Kuiper belt object Weywot
+            vnfd:strategy: COLOCATION
+        vnfd:short-name: pong_vnfd
+        vnfd:vdu:
+        -   vnfd:cloud-init-file: pong_cloud_init.cfg
+            vnfd:count: '1'
+            vnfd:id: iovdu_0
+            vnfd:image: Fedora-x86_64-20-20131211.1-sda-pong.qcow2
+            vnfd:image-checksum: 977484d95575f80ef8399c9cf1d45ebd
+            vnfd:interface:
+            -   vnfd:external-connection-point-ref: pong_vnfd/cp0
+                vnfd:name: eth0
+                vnfd:type: EXTERNAL
+                vnfd:virtual-interface:
+                    vnfd:type: VIRTIO
+            -   vnfd:external-connection-point-ref: pong_vnfd/cp1
+                vnfd:name: eth1
+                vnfd:type: EXTERNAL
+                vnfd:virtual-interface:
+                    vnfd:type: VIRTIO
+            vnfd:name: iovdu_0
+            vnfd:vm-flavor:
+                vnfd:memory-mb: '512'
+                vnfd:storage-gb: '4'
+                vnfd:vcpu-count: '1'
+        vnfd:vendor: RIFT.io
+        vnfd:version: '1.0'
+        vnfd:vnf-configuration:
+            vnfd:initial-config-primitive:
+            -   vnfd:name: Pong config
+                vnfd:seq: '1'
+                vnfd:user-defined-script: pong_initial_config.py
+            vnfd:script:
+                vnfd:script-type: rift
