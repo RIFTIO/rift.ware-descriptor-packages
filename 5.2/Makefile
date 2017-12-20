@@ -16,7 +16,7 @@
 #
 BUILD_DIR = build
 
-NSDS := ping_pong_ns
+NSDS := ping_pong_ns ping_pong_scale_ns
 NSD_SRC_DIR := src/nsd
 NSD_BUILD_DIR := $(BUILD_DIR)/nsd
 
@@ -25,7 +25,7 @@ NSD_BUILD_DIRS := $(addprefix $(NSD_BUILD_DIR)/, $(NSDS))
 NSD_PKGS := $(addsuffix .tar.gz, $(NSDS))
 NSD_BUILD_PKGS := $(addprefix $(NSD_BUILD_DIR)_pkgs/, $(NSD_PKGS))
 
-VNFDS := ping_vnf pong_vnf
+VNFDS := ping_vnf pong_vnf ping_scale_vnf pong_scale_vnf
 VNFD_SRC_DIR := src/vnfd
 VNFD_BUILD_DIR := $(BUILD_DIR)/vnfd
 
@@ -61,6 +61,8 @@ $(NSD_BUILD_DIR)/%: $(NSD_SRC_DIR)/%
 
 $(BUILD_DIR)/nsd_pkgs/%.tar.gz: $(NSD_BUILD_DIR)/%
 	src/generate_descriptor_pkg.sh -d $(BUILD_DIR)/nsd_pkgs $<
+	rm -rf $(NSD_BUILD_DIR)
 
 $(BUILD_DIR)/vnfd_pkgs/%.tar.gz: $(VNFD_BUILD_DIR)/%
 	src/generate_descriptor_pkg.sh -d $(BUILD_DIR)/vnfd_pkgs $<
+	rm -rf $(VNFD_BUILD_DIR)

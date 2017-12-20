@@ -1,0 +1,136 @@
+nsd:nsd-catalog:
+    nsd:nsd:
+    -   nsd:constituent-vnfd:
+        -   nsd:member-vnf-index: '1'
+            nsd:start-by-default: 'false'
+            nsd:vnfd-id-ref: ping_scale_vnf
+        -   nsd:member-vnf-index: '2'
+            nsd:vnfd-id-ref: pong_scale_vnf
+        nsd:description: 'Toy Rift.ware NS '
+        nsd:id: 2c4ba302-dc31-11e7-973a-02420a40d502
+        nsd:initial-service-primitive:
+        -   nsd:name: start traffic
+            nsd:parameter:
+            -   nsd:name: userid
+            nsd:seq: '1'
+            nsd:user-defined-script: start_traffic.py
+        nsd:input-parameter-xpath:
+        -   nsd:xpath: /nsd-catalog/nsd/vendor
+        nsd:ip-profiles:
+        -   nsd:description: Inter VNF Link
+            nsd:ip-profile-params:
+                nsd:gateway-address: 31.31.31.210
+                nsd:ip-version: ipv4
+                nsd:subnet-address: 31.31.31.0/24
+            nsd:name: InterVNFLink
+        nsd:logo: rift_logo.png
+        nsd:monitoring-param:
+        -   nsd:aggregation-type: AVERAGE
+            nsd:id: '1'
+            nsd:name: ping-request-tx-count
+            nsd:value-type: INT
+            nsd:vnfd-monitoring-param:
+            -   nsd:member-vnf-index-ref: '1'
+                nsd:vnfd-id-ref: ping_scale_vnf
+                nsd:vnfd-monitoring-param-ref: '1'
+        -   nsd:aggregation-type: AVERAGE
+            nsd:id: '2'
+            nsd:name: ping-response-rx-count
+            nsd:value-type: INT
+            nsd:vnfd-monitoring-param:
+            -   nsd:member-vnf-index-ref: '1'
+                nsd:vnfd-id-ref: ping_scale_vnf
+                nsd:vnfd-monitoring-param-ref: '2'
+        -   nsd:aggregation-type: AVERAGE
+            nsd:id: '3'
+            nsd:name: ping-request-rx-count
+            nsd:value-type: INT
+            nsd:vnfd-monitoring-param:
+            -   nsd:member-vnf-index-ref: '2'
+                nsd:vnfd-id-ref: pong_scale_vnf
+                nsd:vnfd-monitoring-param-ref: '1'
+        -   nsd:aggregation-type: AVERAGE
+            nsd:id: '4'
+            nsd:name: ping-response-tx-count
+            nsd:value-type: INT
+            nsd:vnfd-monitoring-param:
+            -   nsd:member-vnf-index-ref: '2'
+                nsd:vnfd-id-ref: pong_scale_vnf
+                nsd:vnfd-monitoring-param-ref: '2'
+        -   nsd:aggregation-type: AVERAGE
+            nsd:id: '5'
+            nsd:name: packet-rate
+            nsd:value-type: INT
+            nsd:vnfd-monitoring-param:
+            -   nsd:member-vnf-index-ref: '2'
+                nsd:vnfd-id-ref: pong_scale_vnf
+                nsd:vnfd-monitoring-param-ref: '3'
+        nsd:name: ping_pong_nsd
+        nsd:placement-groups:
+        -   nsd:member-vnfd:
+            -   nsd:member-vnf-index-ref: '1'
+                nsd:vnfd-id-ref: ping_scale_vnf
+            -   nsd:member-vnf-index-ref: '2'
+                nsd:vnfd-id-ref: pong_scale_vnf
+            nsd:name: Orcus
+            nsd:requirement: Place this VM on the Kuiper belt object Orcus
+            nsd:strategy: COLOCATION
+        -   nsd:member-vnfd:
+            -   nsd:member-vnf-index-ref: '1'
+                nsd:vnfd-id-ref: ping_scale_vnf
+            -   nsd:member-vnf-index-ref: '2'
+                nsd:vnfd-id-ref: pong_scale_vnf
+            nsd:name: Quaoar
+            nsd:requirement: Place this VM on the Kuiper belt object Quaoar
+            nsd:strategy: COLOCATION
+        nsd:scaling-group-descriptor:
+        -   nsd:max-instance-count: '10'
+            nsd:min-instance-count: '1'
+            nsd:name: ping_group
+            nsd:scaling-config-action:
+            -   nsd:ns-service-primitive-name-ref: ping scale
+                nsd:trigger: post-scale-out
+            nsd:vnfd-member:
+            -   nsd:count: '1'
+                nsd:member-vnf-index-ref: '1'
+        nsd:service-primitive:
+        -   nsd:name: ping scale
+            nsd:user-defined-script: ping_scale.py
+        nsd:short-name: ping_pong_nsd
+        nsd:terminate-service-primitive:
+        -   nsd:name: stop traffic
+            nsd:parameter:
+            -   nsd:name: userid
+                nsd:value: rift
+            nsd:seq: '1'
+            nsd:user-defined-script: stop_traffic.py
+        nsd:vendor: RIFT.io
+        nsd:version: '1.0'
+        nsd:vld:
+        -   nsd:description: Toy VL
+            nsd:id: ping_pong_vld1
+            nsd:ip-profile-ref: InterVNFLink
+            nsd:name: ping_pong_vld
+            nsd:short-name: ping_pong_vld
+            nsd:type: ELAN
+            nsd:vendor: RIFT.io
+            nsd:version: '1.0'
+            nsd:vnfd-connection-point-ref:
+            -   nsd:member-vnf-index-ref: '1'
+                nsd:vnfd-connection-point-ref: ping_vnfd/cp1
+                nsd:vnfd-id-ref: ping_scale_vnf
+            -   nsd:member-vnf-index-ref: '2'
+                nsd:vnfd-connection-point-ref: pong_vnfd/cp1
+                nsd:vnfd-id-ref: pong_scale_vnf
+        -   nsd:id: mgmt_vld
+            nsd:mgmt-network: 'true'
+            nsd:name: mgmt_vld
+            nsd:type: ELAN
+            nsd:vim-network-name: private
+            nsd:vnfd-connection-point-ref:
+            -   nsd:member-vnf-index-ref: '1'
+                nsd:vnfd-connection-point-ref: ping_vnfd/cp0
+                nsd:vnfd-id-ref: ping_scale_vnf
+            -   nsd:member-vnf-index-ref: '2'
+                nsd:vnfd-connection-point-ref: pong_vnfd/cp0
+                nsd:vnfd-id-ref: pong_scale_vnf

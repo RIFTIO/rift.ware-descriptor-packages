@@ -1,0 +1,81 @@
+vnfd:vnfd-catalog:
+    vnfd:vnfd:
+    -   vnfd:connection-point:
+        -   vnfd:name: ping_vnfd/cp1
+            vnfd:type: VPORT
+        -   vnfd:name: ping_vnfd/cp0
+            vnfd:type: VPORT
+        vnfd:description: 'Toy Rift.ware VNF '
+        vnfd:http-endpoint:
+        -   vnfd:path: api/v1/ping/stats
+            vnfd:polling-interval-secs: '2'
+            vnfd:port: '18888'
+        vnfd:id: ping_scale_vnf
+        vnfd:logo: rift_logo.png
+        vnfd:mgmt-interface:
+            vnfd:dashboard-params:
+                vnfd:path: api/v1/ping/stats
+                vnfd:port: '18888'
+            vnfd:port: '18888'
+            vnfd:vdu-id: iovdu_0
+        vnfd:monitoring-param:
+        -   vnfd:description: no of ping requests
+            vnfd:group-tag: Group1
+            vnfd:http-endpoint-ref: api/v1/ping/stats
+            vnfd:id: '1'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: ping-request-tx-count
+            vnfd:units: packets
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        -   vnfd:description: no of ping responses
+            vnfd:group-tag: Group1
+            vnfd:http-endpoint-ref: api/v1/ping/stats
+            vnfd:id: '2'
+            vnfd:json-query-method: NAMEKEY
+            vnfd:name: ping-response-rx-count
+            vnfd:units: packets
+            vnfd:value-type: INT
+            vnfd:widget-type: COUNTER
+        vnfd:name: ping_vnfd
+        vnfd:placement-groups:
+        -   vnfd:member-vdus:
+            -   vnfd:member-vdu-ref: iovdu_0
+            vnfd:name: Eris
+            vnfd:requirement: Place this VM on the Kuiper belt object Eris
+            vnfd:strategy: COLOCATION
+        vnfd:short-name: ping_vnfd
+        vnfd:vdu:
+        -   vnfd:cloud-init: "#cloud-config\npassword: fedora\nchpasswd: { expire:\
+                \ False }\nssh_pwauth: True\nruncmd:\n  - [ systemctl, daemon-reload\
+                \ ]\n  - [ systemctl, enable, ping.service ]\n  - [ systemctl, start,\
+                \ --no-block, ping.service ]\n  - [ ifup, eth1 ]\n"
+            vnfd:count: '1'
+            vnfd:id: iovdu_0
+            vnfd:image: Fedora-x86_64-20-20131211.1-sda-ping.qcow2
+            vnfd:image-checksum: a6ffaa77f949a9e4ebb082c6147187cf
+            vnfd:interface:
+            -   vnfd:external-connection-point-ref: ping_vnfd/cp0
+                vnfd:name: eth0
+                vnfd:type: EXTERNAL
+                vnfd:virtual-interface:
+                    vnfd:type: VIRTIO
+            -   vnfd:external-connection-point-ref: ping_vnfd/cp1
+                vnfd:name: eth1
+                vnfd:type: EXTERNAL
+                vnfd:virtual-interface:
+                    vnfd:type: VIRTIO
+            vnfd:name: iovdu_0
+            vnfd:vm-flavor:
+                vnfd:memory-mb: '512'
+                vnfd:storage-gb: '4'
+                vnfd:vcpu-count: '1'
+        vnfd:vendor: RIFT.io
+        vnfd:version: '1.0'
+        vnfd:vnf-configuration:
+            vnfd:initial-config-primitive:
+            -   vnfd:name: Ping config
+                vnfd:seq: '1'
+                vnfd:user-defined-script: ping_initial_config.py
+            vnfd:script:
+                vnfd:script-type: rift
